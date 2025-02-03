@@ -1,0 +1,5 @@
+# Mengatur line endings untuk semua file teks
+* text=auto
+
+# Mengatur line endings untuk file Python
+*.py text eol=lf

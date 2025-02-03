@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Flight Bookings</h1>
+  <a href="{{ url_for('add_flight') }}" class="btn btn-primary">Add Flight</a>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Flight ID</th>
+      <th>Flight Name</th>
+      <th>Origin</th>
+      <th>Destination</th>
+      <th>Booking ID</th>
+      <th>Passenger Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for flight in flights %}
+    <tr>
+      <td>{{ flight['flight_id'] }}</td>
+      <td>{{ flight['flight_name'] }}</td>
+      <td>{{ flight['origin'] }}</td>
+      <td>{{ flight['destination'] }}</td>
+      <td>{{ flight['booking_id'] or 'No Booking' }}</td>
+      <td>{{ flight['passenger_name'] or 'No Passenger' }}</td>
+      <td>
+        <a
+          href="{{ url_for('update_flight', flight_id=flight['flight_id']) }}"
+          class="btn btn-warning btn-sm"
+          >Edit</a
+        >
+        <a
+          href="{{ url_for('delete_flight', flight_id=flight['flight_id']) }}"
+          class="btn btn-danger btn-sm"
+          >Delete</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

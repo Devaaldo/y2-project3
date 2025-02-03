@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Register</h2>
+      <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          {{ form.name.label }}<br />
+          {{ form.name(size=32, class_="form-control") }}<br />
+          {% for error in form.name.errors %}
+          <span class="text-danger">{{ error }}</span><br />
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.username.label }}<br />
+          {{ form.username(size=32, class_="form-control") }}<br />
+          {% for error in form.username.errors %}
+          <span class="text-danger">{{ error }}</span><br />
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.email.label }}<br />
+          {{ form.email(size=32, class_="form-control") }}<br />
+          {% for error in form.email.errors %}
+          <span class="text-danger">{{ error }}</span><br />
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.phone_number.label }}<br />
+          {{ form.phone_number(size=32, class_="form-control") }}<br />
+          {% for error in form.phone_number.errors %}
+          <span class="text-danger">{{ error }}</span><br />
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.date_of_birth.label }}<br />
+          {{ form.date_of_birth(class_="form-control") }}<br />
+          {% for error in form.date_of_birth.errors %}
+          <span class="text-danger">{{ error }}</span><br />
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.password.label }}<br />
+          <div class="password-wrapper">
+            {{ form.password(class_="form-control", id="password") }}
+            <button
+              type="button"
+              class="toggle-password"
+              onclick="togglePassword('password')"
+            >
+              Show
+            </button>
+          </div>
+          <div id="password-strength" class="strength-meter"></div>
+          {% for error in form.password.errors %}
+          <span class="text-danger">{{ error }}</span><br />
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.confirm_password.label }}<br />
+          <div class="password-wrapper">
+            {{ form.confirm_password(class_="form-control",
+            id="confirm_password") }}
+            <button
+              type="button"
+              class="toggle-password"
+              onclick="togglePassword('confirm_password')"
+            >
+              Show
+            </button>
+          </div>
+          {% for error in form.confirm_password.errors %}
+          <span class="text-danger">{{ error }}</span><br />
+          {% endfor %}
+        </div>
+
+        <div class="form-group">
+          {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </form>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#password").on("input", function () {
+          let password = $(this).val();
+          let strengthMeter = $("#password-strength");
+          let strength = getPasswordStrength(password);
+          strengthMeter.text(strength);
+        });
+
+        function getPasswordStrength(password) {
+          let strength = "Weak";
+          if (password.length >= 8) {
+            if (
+              /[A-Z]/.test(password) &&
+              /[a-z]/.test(password) &&
+              /\d/.test(password) &&
+              /[!@#$%^&*]/.test(password)
+            ) {
+              strength = "Strong";
+            } else if (
+              /[A-Z]/.test(password) ||
+              /\d/.test(password) ||
+              /[!@#$%^&*]/.test(password)
+            ) {
+              strength = "Medium";
+            }
+          }
+          return strength;
+        }
+      });
+
+      function togglePassword() {
+        let passwordField = document.getElementById("password");
+        let toggleButton = document.querySelector(".toggle-password");
+
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+          toggleButton.textContent = "Hide";
+        } else {
+          passwordField.type = "password";
+          toggleButton.textContent = "Show";
+        }
+      }
+
+      function togglePassword(fieldId) {
+        let passwordField = document.getElementById(fieldId);
+        let toggleButton = passwordField.nextElementSibling; // The button is next to the field
+
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+          toggleButton.textContent = "Hide";
+        } else {
+          passwordField.type = "password";
+          toggleButton.textContent = "Show";
+        }
+      }
+    </script>
+  </body>
+</html>

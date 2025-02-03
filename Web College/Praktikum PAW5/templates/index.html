@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce Purchase</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>E-commerce Store</h1>
+      <p>Select an item and enter the quantity:</p>
+
+      <label for="itemSelect">Item:</label>
+      <select id="itemSelect">
+        {% for item, price in items.items() %}
+        <option value="{{ item }}">
+          {{ item.capitalize() }} - ${{ price }}
+        </option>
+        {% endfor %}
+      </select>
+
+      <label for="quantityInput">Quantity:</label>
+      <input type="number" id="quantityInput" value="1" min="1" />
+      <button id="purchaseBtn">Purchase</button>
+
+      <div id="result"></div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
